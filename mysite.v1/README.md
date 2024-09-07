@@ -28,7 +28,7 @@ ff02::1    ip6-allnodes
 ff02::2    ip6-allrouters
 
 #php test
-127.0.0.1 mysite.test.local
+127.0.0.1 mysite.v1.local
 
 ```
 
