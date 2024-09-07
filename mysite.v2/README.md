@@ -48,8 +48,7 @@ docker run -it --rm --name test-php-c test-php id
 
 # create a new laravel project via php composer
 ```bash
-cd src
-rm -rf *
+rm -rf src/**
 docker compose run --rm php composer create-project laravel/laravel .
 ```
 

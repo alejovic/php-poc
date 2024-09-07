@@ -6,6 +6,7 @@ services:
           context: .
           dockerfile: ./docker/nginx.Dockerfile
       container_name: mysite.v2.nginx
+      hostname: mysite.v2.nginx
       depends_on:
         - php
         - mariadb
@@ -28,6 +29,7 @@ services:
             UID: 1000
             GID: 1000
       container_name: mysite.v2.php
+      hostname: mysite.v2.php
       depends_on:
         - mariadb
       working_dir: /mysite.v2/src
@@ -39,6 +41,7 @@ services:
     mariadb:
       image: mariadb:latest
       container_name: mysite.v2.mariadb
+      hostname: mysite.v2.mariadb
       environment:
         MYSQL_ROOT_PASSWORD: 'root'
         MYSQL_USER: 'mysite.v2'
