@@ -1,0 +1,60 @@
+version: '3'
+services:
+    nginx:
+      image: nginx:latest
+      build:
+          context: .
+          dockerfile: ./docker/nginx.Dockerfile
+      container_name: mysite.v1.nginx
+      depends_on:
+        - php
+        - mariadb
+      restart: always
+      ports:
+          - "8080:80"
+          - "8443:443"
+      working_dir: /mysite.v1/src    
+      volumes:
+          - ./src:/mysite.v1/src
+      networks:
+        - appnet              
+
+    php:
+      image: php:fpm
+      build:
+          context: .
+          dockerfile: ./docker/php.Dockerfile
+          args:
+            UID: 1000
+            GID: 1000
+      container_name: mysite.v1.php
+      depends_on:
+        - mariadb
+      working_dir: /mysite.v1/src
+      volumes:
+        - ./src:/mysite.v1/src
+      networks:
+        - appnet    
+
+    mariadb:
+      image: mariadb:latest
+      container_name: mysite.v1.mariadb
+      environment:
+        MYSQL_ROOT_PASSWORD: 'root'
+        MYSQL_USER: 'mysite.v1'
+        MYSQL_PASSWORD: 'secret'
+        MYSQL_DATABASE: 'mysite.v1'
+      ports:
+        - "3306:3306"
+      working_dir: /var/lib/mysql
+      volumes:
+        - ./mariadb:/var/lib/mysql
+      networks:
+        - appnet  
+      
+volumes:
+  mariadb: {}
+
+networks:
+  appnet:
+    driver: bridge
